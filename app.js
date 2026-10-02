@@ -13,9 +13,38 @@ const bg=(u)=>`background-image:url('${u}')`;
 function render(){
  document.querySelector('#app').innerHTML=`<div class="shell">
   <nav class="nav"><a class="brand" href="#home">SOPHIA D'OR</a><div class="navlinks"><a href="#explore">Explore</a><a href="#octopus">Expeditions</a><a href="#cabinet">Cabinet</a><a href="#field">Field</a><a href="#about">About</a></div><div class="navtools"><button class="iconbtn" id="randomBtn" title="Random Door">↻</button><button class="pill" id="modeBtn">${state.mode}</button><button class="iconbtn" id="askGlobal">?</button></div></nav>
-  <header class="hero" id="home"><div class="hero-content"><div class="kicker">A cabinet for the curious</div><h1>SOPHIA D'OR</h1><blockquote>“The world doesn't need more hype.<br>It needs a closer look.”</blockquote><div class="question">Where would you like to begin?</div><div class="object-row">
-    ${[['🐙','Nature'],['𓂀','History'],['⚙','Science'],['◉','People'],['⌖','Places'],['✦','Ideas'],['✺','Random Door']].map((x,i)=>`<button class="object" data-target="${i===0?'octopus':'explore'}"><span>${x[0]}</span><small>${x[1]}</small></button>`).join('')}
-  </div></div><div class="scroll">↓ Scroll to explore</div></header>
+  <header class="hero" id="home">
+    <div class="hero-orbit hero-orbit--one"></div><div class="hero-orbit hero-orbit--two"></div>
+    <button class="floating-object fo-skull" data-target="explore" aria-label="Natural history specimen"><span>specimen</span></button>
+    <button class="floating-object fo-jelly" data-target="octopus" aria-label="Marine life"><span>marine life</span></button>
+    <button class="floating-object fo-fossil" data-target="catalogue" aria-label="Fossils"><span>fossils</span></button>
+    <button class="floating-object fo-mechanism" data-target="explore" aria-label="Mechanisms"><span>mechanisms</span></button>
+    <button class="floating-object fo-botany" data-target="field" aria-label="Botany"><span>botany</span></button>
+    <button class="floating-object fo-classical" data-target="explore" aria-label="Human history"><span>human history</span></button>
+    <button class="floating-object fo-mineral" data-target="catalogue" aria-label="Minerals"><span>minerals</span></button>
+    <div class="earth-disc" aria-hidden="true"></div>
+    <div class="hero-content">
+      <div class="hero-plaque">
+        <div class="kicker">Look closer</div><h1>SOPHIA D'OR</h1>
+        <blockquote>“The world doesn't need more hype.<br>It needs a closer look.”</blockquote>
+      </div>
+      <div class="question">Where would you like to begin?</div>
+      <div class="object-row">
+        ${[['♘','Nature','octopus'],['⌛','History','explore'],['⚙','Science','explore'],['◉','People','explore'],['⌖','Places','expedition'],['✦','Ideas','explore'],['✺','Random Door','random']].map(x=>`<button class="object" ${x[2]==='random'?'id="randomHero"':`data-target="${x[2]}"`}><span>${x[0]}</span><small>${x[1]}</small></button>`).join('')}
+      </div>
+    </div><div class="scroll">↓ Scroll to explore</div>
+  </header>
+  <section class="home-desk">
+    <div class="desk-intro"><div class="kicker">Good morning, Gabi.</div><h2>What shall we explore today?</h2></div>
+    <div class="desk-grid">
+      <button class="desk-card desk-card--wide" data-target="octopus"><div class="desk-photo" style="${bg('https://images.unsplash.com/photo-1545671913-b89ac1b4ac10?auto=format&fit=crop&w=1000&q=86')}"></div><div><small>CONTINUE EXPLORING</small><h3>How does an octopus think?</h3><span>UNDERSTAND →</span></div></button>
+      <button class="desk-card" data-target="explore"><div class="desk-photo moon" style="${bg('https://images.unsplash.com/photo-1446941611757-91d2c3bd3d45?auto=format&fit=crop&w=900&q=84')}"></div><div><small>SOMETHING WORTH NOTICING TODAY</small><h3>The Moon is in a particularly good phase tonight.</h3><span>LEARN MORE →</span></div></button>
+      <button class="desk-card"><div><small>ONE QUESTION YOU LEFT BEHIND</small><h3>Can an octopus arm make a decision before the central brain?</h3><span>Your editor queue · saved</span></div></button>
+      <button class="desk-card" id="randomDesk"><div class="desk-photo" style="${bg('https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=900&q=84')}"></div><div><small>GO SOMEWHERE UNEXPECTED</small><h3>Random Door</h3><span>OPEN →</span></div></button>
+      <button class="desk-card" data-target="field"><div class="desk-photo" style="${bg('https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=900&q=84')}"></div><div><small>LEAVE THE SCREEN</small><h3>Explore near me</h3><span>30-MINUTE QUEST →</span></div></button>
+      <button class="desk-card" data-target="expedition"><div class="desk-photo" style="${bg('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=84')}"></div><div><small>PLAN AN EXPEDITION</small><h3>Build a route</h3><span>START →</span></div></button>
+    </div>
+  </section>
   <section class="section" id="explore"><div class="sectionhead"><div><div class="kicker">Explore</div><h2>The world is not divided into disciplines.</h2></div><p>We divided it that way so we could study it. Sophia d'Or reconnects mechanisms, histories, places, organisms and evidence into trails that widen curiosity rather than trap it.</p></div><div class="grid three">
     ${card('Octopus intelligence','Can an arm act partly on its own?','https://images.unsplash.com/photo-1545671913-b89ac1b4ac10?auto=format&fit=crop&w=1200&q=85','octopus')}
     ${card('Across the Atlantic','Navigation → astronomy → currents → weather → consequences','https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=85','expedition')}
@@ -52,7 +81,7 @@ function bind(){
  all('.interest').forEach(b=>b.onclick=()=>b.classList.toggle('active'));
  el('#buildRoute').onclick=()=>{const d=el('#destination').value||'Your destination';el('#routeStops').innerHTML=`<div class="route-stop"><b>1 · Read the place</b>Find one detail that reveals a different construction period.</div><div class="route-stop"><b>2 · Evidence before interpretation</b>Record what you can actually see before guessing why it is there.</div><div class="route-stop"><b>3 · Then ↔ Now</b>Compare a historical trace with what exists now.</div>`;toast(`${d} expedition rebuilt for ${state.walk}.`)};
  const random=()=>{const opts=['octopus','field','catalogue','expedition'];go(opts[Math.floor(Math.random()*opts.length)]);toast('Random Door opened — genuinely random among current demo destinations.')};
- el('#randomBtn').onclick=random;el('#randomBtn2').onclick=random;el('#broadBtn').onclick=()=>{go('field');toast('Breadth recommendation: from cephalopod control to reading architecture in the field.')};
+ el('#randomBtn').onclick=random;el('#randomBtn2').onclick=random;if(el('#randomHero'))el('#randomHero').onclick=random;if(el('#randomDesk'))el('#randomDesk').onclick=random;el('#broadBtn').onclick=()=>{go('field');toast('Breadth recommendation: from cephalopod control to reading architecture in the field.')};
  el('#modeBtn').onclick=()=>go('modes');
 }
 render();
