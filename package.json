@@ -1,9 +1,9 @@
 {
-  "name":"sophia-dor",
-  "version":"0.1.0",
-  "private":true,
-  "scripts":{
-    "test":"node --check app.js",
-    "build":"node --check app.js && node -e \"require('fs').accessSync('index.html'); require('fs').accessSync('styles.css'); console.log('Static production build verified')\""
+  "name": "sophia-dor",
+  "version": "0.1.1",
+  "private": true,
+  "scripts": {
+    "test": "node --check app.js",
+    "build": "node --check app.js && node -e \"const fs=require('fs'); fs.rmSync('public',{recursive:true,force:true}); fs.mkdirSync('public',{recursive:true}); for (const f of ['index.html','styles.css','app.js']) fs.copyFileSync(f,'public/'+f); console.log('Static production build verified in public/')\""
   }
 }
