@@ -1,0 +1,9 @@
+{
+  "name":"sophia-dor",
+  "version":"0.1.0",
+  "private":true,
+  "scripts":{
+    "test":"node --check app.js",
+    "build":"node --check app.js && node -e \"require('fs').accessSync('index.html'); require('fs').accessSync('styles.css'); console.log('Static production build verified')\""
+  }
+}
