@@ -94,87 +94,32 @@ function footer() {
   `;
 }
 
-function homePage() {
-  return `
-    <main class="page page-home tone-home">
-      <section class="hero hero-home">
-        <div class="hero-globe"></div>
-        <div class="hero-copy">
-          <div class="eyebrow">Look closer</div>
-          <h1>SOPHIA D'OR</h1>
-          <p class="hero-manifesto">“The world doesn't need more hype.<br>It needs a closer look.”</p>
-          <p class="hero-question">Where would you like to begin?</p>
-          <div class="hero-doors">
-            ${[
-              ['Nature', routes.topics],
-              ['History', routes.explore],
-              ['Science', routes.explore],
-              ['People', routes.explore],
-              ['Places', routes.expeditions],
-              ['Ideas', routes.explore],
-            ].map(([label, route]) => `<button class="door" data-route="${route}">${label}</button>`).join('')}
-          </div>
-        </div>
-      </section>
+function homePage(){return `<main class="page page-home">
+  <header class="hero">
+    <div class="hero-orbit hero-orbit--one"></div><div class="hero-orbit hero-orbit--two"></div>
+    <button class="floating-object fo-skull" data-route="${routes.explore}" aria-label="Natural history specimen"><span>specimen</span></button>
+    <button class="floating-object fo-jelly" data-route="${routes.octopus}" aria-label="Marine life"><span>marine life</span></button>
+    <button class="floating-object fo-fossil" data-route="${routes.catalogue}" aria-label="Fossils"><span>fossils</span></button>
+    <button class="floating-object fo-mechanism" data-route="${routes.explore}" aria-label="Mechanisms"><span>mechanisms</span></button>
+    <button class="floating-object fo-botany" data-route="${routes.field}" aria-label="Botany"><span>botany</span></button>
+    <button class="floating-object fo-classical" data-route="${routes.explore}" aria-label="Human history"><span>human history</span></button>
+    <button class="floating-object fo-mineral" data-route="${routes.catalogue}" aria-label="Minerals"><span>minerals</span></button>
+    <div class="earth-disc" aria-hidden="true"></div>
+    <div class="hero-content"><div class="hero-plaque"><div class="kicker">Look closer</div><h1>SOPHIA D'OR</h1><blockquote>“The world doesn't need more hype.<br>It needs a closer look.”</blockquote></div>
+      <div class="question">Where would you like to begin?</div><div class="object-row">
+      ${[['♘','Nature',routes.topics],['⌛','History',routes.explore],['⚙','Science',routes.explore],['◉','People',routes.explore],['⌖','Places',routes.expeditions],['✦','Ideas',routes.explore]].map(x=>`<button class="object" data-route="${x[2]}"><span>${x[0]}</span><small>${x[1]}</small></button>`).join('')}
+      </div></div><div class="scroll">↓ Your desk is below</div>
+  </header>
+  <section class="home-desk"><div class="desk-intro"><div class="kicker">Good morning, Gabi.</div><h2>What shall we explore today?</h2></div><div class="desk-grid">
+    <button class="desk-card" data-route="${routes.octopus}"><div class="desk-photo" style="${bg('https://images.unsplash.com/photo-1545671913-b89ac1b4ac10?auto=format&fit=crop&w=1000&q=86')}"></div><div><small>CONTINUE EXPLORING</small><h3>How does an octopus think?</h3><span>UNDERSTAND →</span></div></button>
+    <button class="desk-card" data-route="${routes.explore}"><div class="desk-photo" style="${bg('https://images.unsplash.com/photo-1446941611757-91d2c3bd3d45?auto=format&fit=crop&w=900&q=84')}"></div><div><small>SOMETHING WORTH NOTICING TODAY</small><h3>The Moon is in a particularly good phase tonight.</h3><span>LEARN MORE →</span></div></button>
+    <button class="desk-card desk-question" id="questionDesk"><div><small>ONE QUESTION YOU LEFT BEHIND</small><h3>Can an octopus arm make a decision before the central brain?</h3><span>OPEN QUESTIONS →</span></div></button>
+    <button class="desk-card" id="randomDesk"><div class="desk-photo" style="${bg('https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=900&q=84')}"></div><div><small>GO SOMEWHERE UNEXPECTED</small><h3>Random Door</h3><span>OPEN →</span></div></button>
+    <button class="desk-card" data-route="${routes.field}"><div class="desk-photo" style="${bg('https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=900&q=84')}"></div><div><small>LEAVE THE SCREEN</small><h3>Explore near me</h3><span>30-MINUTE QUEST →</span></div></button>
+    <button class="desk-card" data-route="${routes.expeditions}"><div class="desk-photo" style="${bg('https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=900&q=84')}"></div><div><small>PLAN AN EXPEDITION</small><h3>Build a route</h3><span>START →</span></div></button>
+  </div></section>
+</main>`}
 
-      <section class="section desk-section">
-        <div class="section-heading">
-          <div>
-            <div class="eyebrow">Good morning, Gabi.</div>
-            <h2>What shall we explore today?</h2>
-          </div>
-          <p>A clearer starting desk: not the whole platform stacked into one page, just the most relevant doors back into Sophia d'Or.</p>
-        </div>
-        <div class="desk-grid">
-          ${homeCard('Continue exploring', 'How does an octopus think?', 'UNDERSTAND →', 'https://images.unsplash.com/photo-1545671913-b89ac1b4ac10?auto=format&fit=crop&w=1200&q=86', routes.octopus)}
-          ${homeCard('Something worth noticing today', 'The Moon is in a particularly good phase tonight.', 'LEARN MORE →', 'https://images.unsplash.com/photo-1446941611757-91d2c3bd3d45?auto=format&fit=crop&w=1200&q=86', routes.explore)}
-          ${homeTextCard('One question you left behind', state.questions[state.questions.length - 1], 'OPEN QUESTIONS →', routes.cabinet)}
-          ${homeCard('Go somewhere unexpected', 'Random Door', 'OPEN →', 'https://images.unsplash.com/photo-1518005020951-eccb494ad742?auto=format&fit=crop&w=1200&q=84', 'random')}
-          ${homeCard('Leave the screen', 'Explore near me', '30-MINUTE QUEST →', 'https://images.unsplash.com/photo-1493246507139-91e8fad9978e?auto=format&fit=crop&w=1200&q=84', routes.field)}
-          ${homeCard('Plan an expedition', 'Build a route', 'START →', 'https://images.unsplash.com/photo-1500534623283-312aade485b7?auto=format&fit=crop&w=1200&q=86', routes.expeditions)}
-        </div>
-      </section>
-    </main>
-  `;
-}
-
-function homeCard(eyebrow, title, cta, image, route) {
-  const attrs = route === 'random' ? 'id="randomDesk"' : `data-route="${route}"`;
-  return `
-    <button class="desk-card" ${attrs}>
-      <div class="desk-photo" style="${bg(image)}"></div>
-      <div class="desk-copy">
-        <small>${eyebrow}</small>
-        <h3>${title}</h3>
-        <span>${cta}</span>
-      </div>
-    </button>
-  `;
-}
-
-function homeTextCard(eyebrow, title, cta, route) {
-  return `
-    <button class="desk-card desk-card--text" data-route="${route}">
-      <div class="desk-copy">
-        <small>${eyebrow}</small>
-        <h3>${escapeHTML(title)}</h3>
-        <span>${cta}</span>
-      </div>
-    </button>
-  `;
-}
-
-function pageHero(toneClass, eyebrow, title, text) {
-  return `
-    <section class="page-hero ${toneClass}">
-      <div class="page-hero-copy">
-        <div class="eyebrow">${eyebrow}</div>
-        <h1>${title}</h1>
-        <p>${text}</p>
-      </div>
-    </section>
-  `;
-}
 
 function explorePage() {
   return `
