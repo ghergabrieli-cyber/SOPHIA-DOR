@@ -85,7 +85,134 @@ function cabinetPage(){return `<main class="page"><section class="cabinet"><div 
 
 function cataloguePage(){return `<main class="page"><section class="page-hero page-hero-catalogue"><div class="page-hero-copy"><div class="kicker">Great Catalogue</div><h1>Collect what you actually understand.</h1><p>Opening a page is not enough. Catalogue entries unlock from meaningful exploration, checks and mastery.</p></div></section><section class="section"><div class="catalogue-tabs"><button class="active">Collections</button><button>Explorer's Trunk</button><button>Discovery Gifts</button></div><div class="grid four">${catalogueCards()}</div></section><section class="section section-alt"><div class="sectionhead"><div><div class="kicker">Take this discovery with you</div><h2>Discovery Gifts</h2></div><p>Educational physical rewards attach to a future shop order after meaningful requirements are met. No loot boxes. No paid rarity.</p></div><div class="grid three"><div class="panel"><h3>Geology Discovery Gift</h3><p>Knowledge requirement ✓<br>Field discoveries ✓<br>Collection requirement ✓</p><button class="goldbtn">UNLOCKED FOR NEXT ORDER</button></div><div class="panel"><h3>Field guide</h3><p>Minerals of Europe · pocket edition.</p><button class="ghost">VIEW OBJECT STORY</button></div><div class="panel"><h3>Specimen set</h3><p>Educational rock collection with source and context cards.</p><button class="ghost">ADD TO CART</button></div></div></section></main>`}
 
-function expeditionPage(){return `<main class="page"><section class="expedition"><div class="planner"><div class="kicker" style="color:#7d673d">Plan an expedition</div><h2>Turn a place into a question.</h2><div class="fieldrow"><div class="field"><label>Destination</label><input id="destination" value="Târgoviște"></div><div class="field"><label>Dates</label><input id="dates" value="17–19 October"></div></div><div class="field"><label>How much walking are we doing?</label><div class="choice-row">${['LIGHT','MODERATE','I HAVE LEGS 😤'].map(x=>`<button class="choice ${state.walk===x?'active':''}" data-walk="${x}">${x}</button>`).join('')}</div></div><div class="field"><label>What sounds interesting?</label><div class="interest-grid">${['History','Nature','Architecture','Engineering','Science','Surprise me'].map((x,i)=>`<button class="choice interest"><span>${['⌛','❧','⌂','⚙','✧','?'][i]}</span>${x}</button>`).join('')}</div></div><button class="goldbtn expedition-build" id="buildRoute">BUILD MY EXPEDITION</button><p class="planner-note">Designed for cities, villages, limited budgets and different mobility levels.</p></div><div class="mapmock"><div class="map-route-line"></div><span class="map-pin p1">1</span><span class="map-pin p2">2</span><span class="map-pin p3">3</span><span class="map-pin p4">4</span><div class="route-card"><div class="kicker" style="color:#7d673d">Your expedition</div><h3>Târgoviște</h3><small>17–19 October · 6 stops</small><div id="routeStops"><div class="route-stop"><b>1 · The Royal Court</b>How to read the layers of a capital city.</div><div class="route-stop"><b>2 · Chindia Tower</b>Look for clues from different periods.</div><div class="route-stop"><b>3 · Hidden details</b>Small things, big stories.</div></div><button class="route-full" data-route="${routes.field}">OPEN FIELD MODE →</button></div></div></section><section class="section"><div class="sectionhead"><div><div class="kicker">Grand Expeditions</div><h2>Across the Atlantic</h2></div><p>Navigation → astronomy → ocean currents → meteorology → shipbuilding → cartography → history → consequences.</p></div>${card('Across the Atlantic','A permanent interdisciplinary expedition. No countdown. No FOMO.','https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1500&q=86',routes.field)}</section></main>`}
+function expeditionPage(){return `<main class="page page-expeditions-v2">
+  <section class="expv2-hero">
+    <div class="expv2-hero__overlay"></div>
+    <div class="expv2-hero__content">
+      <div class="kicker">Expeditions</div>
+      <h1>Turn a place into a question.</h1>
+      <p>Build a route around what is actually there: architecture, geology, night sky, engineering, traces of change, and the questions a place can answer if you look closely.</p>
+      <div class="expv2-principles">
+        <span>LOCAL OR FAR AWAY</span>
+        <span>NO FOMO</span>
+        <span>EVIDENCE BEFORE INTERPRETATION</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="expv2-shell">
+    <div class="expv2-sectionhead">
+      <div>
+        <div class="kicker">Plan an expedition</div>
+        <h2>Start with the practical things.</h2>
+      </div>
+      <p>Destination, time, interests and walking preference shape the route. The planner should feel like preparing a field notebook, not filling in a travel form.</p>
+    </div>
+
+    <div class="expv2-planner-grid">
+      <div class="expv2-planner-card">
+        <div class="fieldrow">
+          <div class="field">
+            <label>Destination</label>
+            <input id="destination" value="Târgoviște">
+          </div>
+          <div class="field">
+            <label>Dates</label>
+            <input id="dates" value="17–19 October">
+          </div>
+        </div>
+
+        <div class="field expv2-fieldblock">
+          <label>How much walking are we doing?</label>
+          <div class="choice-row expv2-walk">
+            ${['LIGHT','MODERATE','I HAVE LEGS 😤'].map(x=>`<button class="choice ${state.walk===x?'active':''}" data-walk="${x}">${x}</button>`).join('')}
+          </div>
+        </div>
+
+        <div class="field expv2-fieldblock">
+          <label>What sounds interesting?</label>
+          <div class="interest-grid expv2-interests">
+            ${[
+              ['⌛','History'],
+              ['❧','Nature'],
+              ['⌂','Architecture'],
+              ['⚙','Engineering'],
+              ['✧','Science'],
+              ['?','Surprise me']
+            ].map(x=>`<button class="choice interest"><span>${x[0]}</span>${x[1]}</button>`).join('')}
+          </div>
+        </div>
+
+        <button class="expv2-build" id="buildRoute">BUILD MY EXPEDITION →</button>
+        <p class="expv2-note">Built for cities, villages, modest budgets and different mobility levels. Saved routes can later support offline preparation.</p>
+      </div>
+
+      <div class="expv2-route-board">
+        <div class="expv2-mapwash"></div>
+        <div class="expv2-route-line"></div>
+        <span class="expv2-pin pin-a">1</span>
+        <span class="expv2-pin pin-b">2</span>
+        <span class="expv2-pin pin-c">3</span>
+        <span class="expv2-pin pin-d">4</span>
+
+        <div class="expv2-route-card">
+          <div class="kicker">Your expedition</div>
+          <h3>Târgoviște</h3>
+          <p class="expv2-route-meta">17–19 October · 6 stops</p>
+          <div id="routeStops">
+            <div class="route-stop"><b>1 · The Royal Court</b><span>Read the layers of a former capital.</span></div>
+            <div class="route-stop"><b>2 · Chindia Tower</b><span>Look for clues from different periods.</span></div>
+            <div class="route-stop"><b>3 · Hidden details</b><span>Small things, big stories.</span></div>
+          </div>
+          <div class="expv2-route-actions">
+            <button class="expv2-secondary" data-route="${routes.field}">OPEN FIELD MODE</button>
+            <button class="expv2-secondary">VIEW FULL ROUTE</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="expv2-next">
+    <div class="expv2-next__item">
+      <small>BEFORE</small>
+      <h3>Know just enough.</h3>
+      <p>Optional context before you go — never homework for homework's sake.</p>
+    </div>
+    <div class="expv2-next__item">
+      <small>DURING</small>
+      <h3>Observe first.</h3>
+      <p>Clues, photographs where permitted, field notes and evidence-based questions.</p>
+    </div>
+    <div class="expv2-next__item">
+      <small>AFTER</small>
+      <h3>Now understand it.</h3>
+      <p>Connect what you saw back to deeper Sophia d'Or content.</p>
+    </div>
+  </section>
+
+  <section class="expv2-shell expv2-grand-wrap">
+    <div class="expv2-sectionhead">
+      <div>
+        <div class="kicker">Grand Expeditions</div>
+        <h2>The world is not divided into disciplines.</h2>
+      </div>
+      <p>Grand Expeditions connect questions that belong together in reality, even when universities put them in separate departments.</p>
+    </div>
+
+    <div class="expv2-grand">
+      <div class="expv2-grand__visual">
+        <div class="expv2-grand__label">PERMANENT EXPEDITION</div>
+        <div class="expv2-grand__title">Across<br>the Atlantic</div>
+      </div>
+      <div class="expv2-grand__content">
+        <p class="expv2-grand__lead">Navigation → astronomy → ocean currents → meteorology → shipbuilding → food preservation → cartography → exploration history → colonialism and consequences → migration → genetics.</p>
+        <p>No countdown. No artificial scarcity. Come back when curiosity brings you here.</p>
+        <button class="expv2-secondary">EXPLORE THE ROUTE →</button>
+      </div>
+    </div>
+  </section>
+</main>`}
 
 function fieldPage(){return `<main class="page"><section class="page-hero page-hero-field"><div class="page-hero-copy"><div class="kicker">Field</div><h1>The world becomes the game board.</h1><p>Observation, evidence and safe real-world quests. Museum rules, wildlife, protected places and mobility needs come first.</p></div></section><section class="section"><div class="sectionhead"><div><div class="kicker">Field Quest demo</div><h2>Look closer. Record what you actually saw.</h2></div><p>My Observation, Suggested Identification and Verified Information remain visibly different.</p></div><div class="mobile-demo"><div class="phone"><img src="https://images.unsplash.com/photo-1521295121783-8a321d551ad2?auto=format&fit=crop&w=700&q=82"><div class="screen"><div class="kicker">Field Quest 02/06</div><h4>Look above the entrance.</h4><p>One architectural detail was added long after the first building phase. Can you find it?</p><button class="goldbtn">I FOUND SOMETHING</button></div></div><div class="phone"><img src="https://images.unsplash.com/photo-1564399579883-451a5d44ec08?auto=format&fit=crop&w=700&q=82"><div class="screen"><div class="kicker">My observation</div><h4>What changed?</h4><p>Record what you observed. This is your field note — not automatically verified fact.</p><textarea class="field-note" placeholder="My observation..."></textarea></div></div><div class="phone"><img src="https://images.unsplash.com/photo-1564507592333-c60657eea523?auto=format&fit=crop&w=700&q=82"><div class="screen"><div class="kicker">Then ↔ Now</div><h4>Now look at this.</h4><p>You found a later intervention. Compare it with the earlier structure and ask what evidence would date the change.</p><button class="ghost">CONTINUE →</button></div></div></div></section><section class="section section-alt"><div class="sectionhead"><div><div class="kicker">Explore near home</div><h2>I have 30 minutes.</h2></div><p>Architecture, Moon, clouds, plants, engineering, geology and urban history can all begin within walking distance.</p></div><button class="goldbtn">SHOW ME A 30-MINUTE QUEST</button></section></main>`}
 
