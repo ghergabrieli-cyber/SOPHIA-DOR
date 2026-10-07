@@ -85,32 +85,49 @@ function cabinetPage(){return `<main class="page"><section class="cabinet"><div 
 
 function cataloguePage(){return `<main class="page"><section class="page-hero page-hero-catalogue"><div class="page-hero-copy"><div class="kicker">Great Catalogue</div><h1>Collect what you actually understand.</h1><p>Opening a page is not enough. Catalogue entries unlock from meaningful exploration, checks and mastery.</p></div></section><section class="section"><div class="catalogue-tabs"><button class="active">Collections</button><button>Explorer's Trunk</button><button>Discovery Gifts</button></div><div class="grid four">${catalogueCards()}</div></section><section class="section section-alt"><div class="sectionhead"><div><div class="kicker">Take this discovery with you</div><h2>Discovery Gifts</h2></div><p>Educational physical rewards attach to a future shop order after meaningful requirements are met. No loot boxes. No paid rarity.</p></div><div class="grid three"><div class="panel"><h3>Geology Discovery Gift</h3><p>Knowledge requirement ✓<br>Field discoveries ✓<br>Collection requirement ✓</p><button class="goldbtn">UNLOCKED FOR NEXT ORDER</button></div><div class="panel"><h3>Field guide</h3><p>Minerals of Europe · pocket edition.</p><button class="ghost">VIEW OBJECT STORY</button></div><div class="panel"><h3>Specimen set</h3><p>Educational rock collection with source and context cards.</p><button class="ghost">ADD TO CART</button></div></div></section></main>`}
 
-function expeditionPage(){return `<main class="page page-expeditions-v2">
-  <section class="expv2-hero">
-    <div class="expv2-hero__overlay"></div>
-    <div class="expv2-hero__content">
+function expeditionPage(){return `<main class="page page-expeditions-v3">
+  <section class="exp3-hero">
+    <div class="exp3-hero__image"></div>
+    <div class="exp3-hero__veil"></div>
+    <div class="exp3-compass" aria-hidden="true">
+      <div class="exp3-compass__ring"></div>
+      <div class="exp3-compass__needle"></div>
+    </div>
+    <div class="exp3-hero__content">
       <div class="kicker">Expeditions</div>
-      <h1>Turn a place into a question.</h1>
-      <p>Build a route around what is actually there: architecture, geology, night sky, engineering, traces of change, and the questions a place can answer if you look closely.</p>
-      <div class="expv2-principles">
-        <span>LOCAL OR FAR AWAY</span>
-        <span>NO FOMO</span>
-        <span>EVIDENCE BEFORE INTERPRETATION</span>
+      <h1>Turn a place<br>into a question.</h1>
+      <p>Not a checklist of attractions. A route built around clues, evidence, overlooked details and the things a place can teach you.</p>
+      <div class="exp3-hero__actions">
+        <button class="exp3-primary" id="jumpPlanner">PLAN AN EXPEDITION</button>
+        <button class="exp3-ghost" data-route="${routes.field}">OPEN FIELD MODE</button>
       </div>
+    </div>
+    <div class="exp3-featured">
+      <small>FEATURED ROUTE</small>
+      <strong>Târgoviște</strong>
+      <span>6 stops · history + architecture + hidden details</span>
     </div>
   </section>
 
-  <section class="expv2-shell">
-    <div class="expv2-sectionhead">
+  <nav class="exp3-subnav">
+    <button data-exp-anchor="planner">PLAN</button>
+    <button data-exp-anchor="journey">BEFORE · DURING · AFTER</button>
+    <button data-exp-anchor="grand">GRAND EXPEDITIONS</button>
+  </nav>
+
+  <section class="exp3-section" id="expPlanner">
+    <div class="exp3-heading">
       <div>
-        <div class="kicker">Plan an expedition</div>
-        <h2>Start with the practical things.</h2>
+        <div class="kicker">Expedition desk</div>
+        <h2>Tell us how you want to move through the world.</h2>
       </div>
-      <p>Destination, time, interests and walking preference shape the route. The planner should feel like preparing a field notebook, not filling in a travel form.</p>
+      <p>The planner shapes the route around your time, mobility and interests — then gives you something that feels like a field brief, not a booking form.</p>
     </div>
 
-    <div class="expv2-planner-grid">
-      <div class="expv2-planner-card">
+    <div class="exp3-desk">
+      <div class="exp3-form">
+        <div class="exp3-form__stamp">FIELD BRIEF · DRAFT 01</div>
+
         <div class="fieldrow">
           <div class="field">
             <label>Destination</label>
@@ -122,94 +139,94 @@ function expeditionPage(){return `<main class="page page-expeditions-v2">
           </div>
         </div>
 
-        <div class="field expv2-fieldblock">
-          <label>How much walking are we doing?</label>
-          <div class="choice-row expv2-walk">
-            ${['LIGHT','MODERATE','I HAVE LEGS 😤'].map(x=>`<button class="choice ${state.walk===x?'active':''}" data-walk="${x}">${x}</button>`).join('')}
-          </div>
+        <div class="exp3-divider"><span>PACE</span></div>
+        <div class="choice-row exp3-walk">
+          ${['LIGHT','MODERATE','I HAVE LEGS 😤'].map(x=>`<button class="choice ${state.walk===x?'active':''}" data-walk="${x}">${x}</button>`).join('')}
         </div>
 
-        <div class="field expv2-fieldblock">
-          <label>What sounds interesting?</label>
-          <div class="interest-grid expv2-interests">
-            ${[
-              ['⌛','History'],
-              ['❧','Nature'],
-              ['⌂','Architecture'],
-              ['⚙','Engineering'],
-              ['✧','Science'],
-              ['?','Surprise me']
-            ].map(x=>`<button class="choice interest"><span>${x[0]}</span>${x[1]}</button>`).join('')}
-          </div>
+        <div class="exp3-divider"><span>INTERESTS</span></div>
+        <div class="exp3-interest-grid">
+          ${[
+            ['⌛','History','layers of time'],
+            ['❧','Nature','living systems'],
+            ['⌂','Architecture','details & structure'],
+            ['⚙','Engineering','how it works'],
+            ['✧','Science','evidence & method'],
+            ['?','Surprise me','break the pattern']
+          ].map(x=>`<button class="choice interest"><span class="exp3-interest-icon">${x[0]}</span><strong>${x[1]}</strong><small>${x[2]}</small></button>`).join('')}
         </div>
 
-        <button class="expv2-build" id="buildRoute">BUILD MY EXPEDITION →</button>
-        <p class="expv2-note">Built for cities, villages, modest budgets and different mobility levels. Saved routes can later support offline preparation.</p>
+        <button class="exp3-build" id="buildRoute">BUILD MY EXPEDITION →</button>
+        <p class="exp3-access">Works for cities, villages, modest budgets and different mobility levels. Travel is optional; curiosity is not.</p>
       </div>
 
-      <div class="expv2-route-board">
-        <div class="expv2-mapwash"></div>
-        <div class="expv2-route-line"></div>
-        <span class="expv2-pin pin-a">1</span>
-        <span class="expv2-pin pin-b">2</span>
-        <span class="expv2-pin pin-c">3</span>
-        <span class="expv2-pin pin-d">4</span>
+      <div class="exp3-map">
+        <div class="exp3-map__photo"></div>
+        <div class="exp3-map__grid"></div>
+        <svg class="exp3-route-svg" viewBox="0 0 640 680" aria-hidden="true">
+          <path d="M120 510 C180 440, 185 335, 280 300 S450 245, 520 145" fill="none" stroke="rgba(220,188,111,.9)" stroke-width="3" stroke-dasharray="9 10"/>
+        </svg>
+        <span class="exp3-pin pin1">1</span><span class="exp3-pin pin2">2</span><span class="exp3-pin pin3">3</span><span class="exp3-pin pin4">4</span>
 
-        <div class="expv2-route-card">
-          <div class="kicker">Your expedition</div>
-          <h3>Târgoviște</h3>
-          <p class="expv2-route-meta">17–19 October · 6 stops</p>
+        <div class="exp3-route-card">
+          <div class="exp3-route-card__top">
+            <div>
+              <small>YOUR EXPEDITION</small>
+              <h3>Târgoviște</h3>
+              <p class="expv2-route-meta">17–19 October · 6 stops</p>
+            </div>
+            <span class="exp3-mini-compass">✥</span>
+          </div>
           <div id="routeStops">
-            <div class="route-stop"><b>1 · The Royal Court</b><span>Read the layers of a former capital.</span></div>
-            <div class="route-stop"><b>2 · Chindia Tower</b><span>Look for clues from different periods.</span></div>
-            <div class="route-stop"><b>3 · Hidden details</b><span>Small things, big stories.</span></div>
+            <div class="route-stop"><b>01 · The Royal Court</b><span>Read the layers of a former capital.</span></div>
+            <div class="route-stop"><b>02 · Chindia Tower</b><span>Look for clues from different periods.</span></div>
+            <div class="route-stop"><b>03 · Hidden details</b><span>Small things, big stories.</span></div>
           </div>
-          <div class="expv2-route-actions">
-            <button class="expv2-secondary" data-route="${routes.field}">OPEN FIELD MODE</button>
-            <button class="expv2-secondary">VIEW FULL ROUTE</button>
+          <div class="exp3-route-actions">
+            <button class="exp3-secondary" data-route="${routes.field}">OPEN FIELD MODE</button>
+            <button class="exp3-secondary">VIEW FULL ROUTE</button>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="expv2-next">
-    <div class="expv2-next__item">
-      <small>BEFORE</small>
-      <h3>Know just enough.</h3>
-      <p>Optional context before you go — never homework for homework's sake.</p>
-    </div>
-    <div class="expv2-next__item">
-      <small>DURING</small>
-      <h3>Observe first.</h3>
-      <p>Clues, photographs where permitted, field notes and evidence-based questions.</p>
-    </div>
-    <div class="expv2-next__item">
-      <small>AFTER</small>
-      <h3>Now understand it.</h3>
-      <p>Connect what you saw back to deeper Sophia d'Or content.</p>
-    </div>
+  <section class="exp3-journey" id="expJourney">
+    <article class="exp3-stage exp3-stage--before">
+      <div class="exp3-stage__image"></div>
+      <div class="exp3-stage__copy"><span>01 · BEFORE</span><h3>Know just enough.</h3><p>A short orientation, one historical clue, one question worth carrying with you.</p></div>
+    </article>
+    <article class="exp3-stage exp3-stage--during">
+      <div class="exp3-stage__image"></div>
+      <div class="exp3-stage__copy"><span>02 · DURING</span><h3>Observe first.</h3><p>Look, compare, record. Evidence before interpretation — with hints only when you want them.</p></div>
+    </article>
+    <article class="exp3-stage exp3-stage--after">
+      <div class="exp3-stage__image"></div>
+      <div class="exp3-stage__copy"><span>03 · AFTER</span><h3>Now understand it.</h3><p>Turn the thing you noticed outside into a deeper trail through Sophia d'Or.</p></div>
+    </article>
   </section>
 
-  <section class="expv2-shell expv2-grand-wrap">
-    <div class="expv2-sectionhead">
+  <section class="exp3-grand-section" id="expGrand">
+    <div class="exp3-heading exp3-heading--grand">
       <div>
         <div class="kicker">Grand Expeditions</div>
-        <h2>The world is not divided into disciplines.</h2>
+        <h2>One real journey.<br>Many ways of knowing.</h2>
       </div>
-      <p>Grand Expeditions connect questions that belong together in reality, even when universities put them in separate departments.</p>
+      <p>The world is not divided into disciplines. Grand Expeditions follow the connections that are already there.</p>
     </div>
 
-    <div class="expv2-grand">
-      <div class="expv2-grand__visual">
-        <div class="expv2-grand__label">PERMANENT EXPEDITION</div>
-        <div class="expv2-grand__title">Across<br>the Atlantic</div>
-      </div>
-      <div class="expv2-grand__content">
-        <p class="expv2-grand__lead">Navigation → astronomy → ocean currents → meteorology → shipbuilding → food preservation → cartography → exploration history → colonialism and consequences → migration → genetics.</p>
+    <div class="exp3-grand">
+      <div class="exp3-grand__ocean"></div>
+      <div class="exp3-grand__route" aria-hidden="true"></div>
+      <div class="exp3-grand__title">
+        <small>PERMANENT EXPEDITION · 11 THREADS</small>
+        <h3>Across<br>the Atlantic</h3>
         <p>No countdown. No artificial scarcity. Come back when curiosity brings you here.</p>
-        <button class="expv2-secondary">EXPLORE THE ROUTE →</button>
       </div>
+      <div class="exp3-thread-ribbon">
+        ${['Navigation','Astronomy','Ocean currents','Meteorology','Shipbuilding','Food preservation','Cartography','Exploration history','Colonialism & consequences','Migration','Genetics'].map((x,i)=>`<span><b>${String(i+1).padStart(2,'0')}</b>${x}</span>`).join('')}
+      </div>
+      <button class="exp3-primary exp3-grand__cta">EXPLORE THE ROUTE →</button>
     </div>
   </section>
 </main>`}
