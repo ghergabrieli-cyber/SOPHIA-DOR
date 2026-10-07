@@ -281,7 +281,18 @@ function bind(){
   all('[data-mode]').forEach(b=>b.onclick=()=>{state.mode=b.dataset.mode;save();render();toast(`${state.mode} mode selected.`)});
   all('[data-walk]').forEach(b=>b.onclick=()=>{state.walk=b.dataset.walk;save();all('[data-walk]').forEach(x=>x.classList.toggle('active',x.dataset.walk===state.walk))});
   all('.interest').forEach(b=>b.onclick=()=>b.classList.toggle('active'));
-  if(el('#buildRoute'))el('#buildRoute').onclick=()=>{const d=el('#destination').value||'Your destination';el('#routeStops').innerHTML=`<div class="route-stop"><b>1 · Read the place</b>Find one detail that reveals a different construction period.</div><div class="route-stop"><b>2 · Evidence before interpretation</b>Record what you can actually see before guessing why it is there.</div><div class="route-stop"><b>3 · Then ↔ Now</b>Compare a historical trace with what exists now.</div>`;toast(`${d} expedition rebuilt for ${state.walk}.`)};
+  if(el('#jumpPlanner'))el('#jumpPlanner').onclick=()=>el('#expPlanner')?.scrollIntoView({behavior:'smooth'});
+  all('[data-exp-anchor]').forEach(b=>b.onclick=()=>{const id={planner:'expPlanner',journey:'expJourney',grand:'expGrand'}[b.dataset.expAnchor];document.getElementById(id)?.scrollIntoView({behavior:'smooth'})});
+  if(el('#buildRoute'))el('#buildRoute').onclick=()=>{
+    const d=el('#destination').value||'Your destination';
+    const dates=el('#dates')?.value||'Your dates';
+    const title=document.querySelector('.exp3-route-card h3');
+    const meta=document.querySelector('.exp3-route-card .expv2-route-meta');
+    if(title)title.textContent=d;
+    if(meta)meta.textContent=`${dates} · 6 stops`;
+    el('#routeStops').innerHTML=`<div class="route-stop"><b>01 · Read the place</b><span>Find one detail that reveals a different construction period.</span></div><div class="route-stop"><b>02 · Evidence before interpretation</b><span>Record what you can actually see before guessing why it is there.</span></div><div class="route-stop"><b>03 · Then ↔ Now</b><span>Compare a historical trace with what exists now.</span></div>`;
+    toast(`${d} expedition rebuilt for ${state.walk}.`);
+  };
 }
 
 window.addEventListener('hashchange',()=>{render();window.scrollTo(0,0)});
